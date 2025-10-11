@@ -2,7 +2,7 @@
 
 A comprehensive web-based educational toolkit featuring an interactive quiz creator with multiple difficulty levels and a full-featured digital whiteboard for teaching.
 
-Created with assistance from DeepSeek R1 AI + GPT-4.
+Created with assistance from DeepSeek V3.1, GPT-5 and Claude Sonnet 4.5.
 
 ## 🌟 Features
 
