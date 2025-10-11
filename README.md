@@ -1,4 +1,4 @@
-# Interactive Quiz Creator & Digital Whiteboard
+# Interactive Teacher Toolkits
 
 A comprehensive web-based educational toolkit featuring an interactive quiz creator with multiple difficulty levels and a full-featured digital whiteboard for teaching.
 
