@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Data Debugger</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            padding: 20px;
+            background: #1e1e1e;
+            color: #d4d4d4;
+        }
+        h1 {
+            color: #4ec9b0;
+        }
+        .quiz-section {
+            background: #252526;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            border-left: 3px solid #007acc;
+        }
+        .quiz-name {
+            color: #4fc1ff;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .quiz-id {
+            color: #ce9178;
+            margin-bottom: 10px;
+        }
+        .level {
+            background: #2d2d30;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 3px;
+        }
+        .level-name {
+            color: #dcdcaa;
+            font-weight: bold;
+        }
+        .questions-count {
+            color: #b5cea8;
+            margin-top: 5px;
+        }
+        .question-item {
+            background: #3e3e42;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 3px;
+            font-size: 0.9rem;
+        }
+        .error {
+            color: #f48771;
+            background: #5a1d1d;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .success {
+            color: #89d185;
+        }
+        pre {
+            background: #1e1e1e;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            border: 1px solid #3e3e42;
+        }
+        button {
+            background: #007acc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #005a9e;
+        }
+    </style>
+</head>
+<body>
+    <h1>📊 Quiz Data Debugger</h1>
+    <p>This page shows all quiz data stored in your browser's localStorage.</p>
+    
+    <button onclick="loadData()">Refresh Data</button>
+    <button onclick="exportData()">Export as JSON</button>
+    <button onclick="clearData()">Clear All Data (⚠️ Warning!)</button>
+    
+    <div id="output"></div>
+
+    <script>
+        const STORAGE_KEY = 'myQuizData';
+
+        function loadData() {
+            const output = document.getElementById('output');
+            output.innerHTML = '';
+
+            try {
+                const dataStr = localStorage.getItem(STORAGE_KEY);
+                
+                if (!dataStr) {
+                    output.innerHTML = '<div class="error">❌ No quiz data found in localStorage!</div>';
+                    return;
+                }
+
+                const quizData = JSON.parse(dataStr);
+                
+                output.innerHTML = '<div class="success">✅ Quiz data found!</div>';
+                
+                if (!quizData.quizzes || !Array.isArray(quizData.quizzes)) {
+                    output.innerHTML += '<div class="error">❌ Invalid data structure: quizzes array not found!</div>';
+                    output.innerHTML += '<h3>Raw Data:</h3><pre>' + JSON.stringify(quizData, null, 2) + '</pre>';
+                    return;
+                }
+
+                output.innerHTML += `<h2>Total Quizzes: ${quizData.quizzes.length}</h2>`;
+
+                quizData.quizzes.forEach((quiz, index) => {
+                    const section = document.createElement('div');
+                    section.className = 'quiz-section';
+                    
+                    let html = `
+                        <div class="quiz-name">📝 ${quiz.name || 'Unnamed Quiz'}</div>
+                        <div class="quiz-id">ID: ${quiz.id || 'No ID'}</div>
+                        <div><strong>Levels:</strong> ${quiz.levels ? quiz.levels.length : 0}</div>
+                    `;
+
+                    if (quiz.levels && Array.isArray(quiz.levels)) {
+                        quiz.levels.forEach(level => {
+                            const questionCount = quiz.questions && quiz.questions[level.id] 
+                                ? quiz.questions[level.id].length 
+                                : 0;
+                            
+                            html += `
+                                <div class="level">
+                                    <div class="level-name">🎯 ${level.name}</div>
+                                    <div>Level ID: ${level.id}</div>
+                                    <div class="questions-count">Questions: ${questionCount}</div>
+                            `;
+
+                            if (quiz.questions && quiz.questions[level.id]) {
+                                quiz.questions[level.id].forEach((q, qi) => {
+                                    html += `
+                                        <div class="question-item">
+                                            ${qi + 1}. ${q.question || 'No question text'}
+                                            <br>Options: ${q.options ? q.options.length : 0}
+                                        </div>
+                                    `;
+                                });
+                            } else {
+                                html += '<div style="color: #f48771; margin-top: 5px;">⚠️ No questions array for this level!</div>';
+                            }
+
+                            html += '</div>';
+                        });
+                    }
+
+                    section.innerHTML = html;
+                    output.appendChild(section);
+                });
+
+                // Show raw JSON at the bottom
+                output.innerHTML += '<h2>Raw JSON Data:</h2><pre>' + JSON.stringify(quizData, null, 2) + '</pre>';
+
+            } catch (error) {
+                output.innerHTML = `<div class="error">❌ Error loading data: ${error.message}</div>`;
+                console.error(error);
+            }
+        }
+
+        function exportData() {
+            try {
+                const dataStr = localStorage.getItem(STORAGE_KEY);
+                if (!dataStr) {
+                    alert('No data to export!');
+                    return;
+                }
+
+                const blob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'quiz-backup-' + new Date().toISOString().split('T')[0] + '.json';
+                a.click();
+                URL.revokeObjectURL(url);
+                alert('Data exported successfully!');
+            } catch (error) {
+                alert('Error exporting: ' + error.message);
+            }
+        }
+
+        function clearData() {
+            if (confirm('⚠️ Are you SURE you want to delete ALL quiz data? This cannot be undone!')) {
+                if (confirm('⚠️ FINAL WARNING: This will delete everything!')) {
+                    localStorage.removeItem(STORAGE_KEY);
+                    alert('All data cleared!');
+                    loadData();
+                }
+            }
+        }
+
+        // Load data on page load
+        window.onload = loadData;
+    </script>
+</body>
+</html>
