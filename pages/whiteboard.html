@@ -251,27 +251,41 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 20px;
+      padding: 8px 15px;
       background: white;
       border-bottom: 1px solid var(--border);
+      flex-wrap: nowrap;
+    }
+    
+    .top-bar > div {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: nowrap;
     }
     
     .top-bar button {
-      padding: 8px 15px;
+      padding: 6px 10px;
       border: 1px solid var(--border);
       background: white;
-      border-radius: 4px;
+      border-radius: 8px;
       cursor: pointer;
-      margin-left: 10px;
       transition: all 0.2s;
+      font-size: 13px;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }
     
     .top-bar button:hover {
       background: #f8f9fa;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
     
     .top-bar button i {
-      margin-right: 5px;
+      font-size: 12px;
     }
     
     .btn-danger {
@@ -602,6 +616,459 @@
     .quick-tool-btn i {
       pointer-events: none;
     }
+
+    /* Save/Load Modal Styles */
+    .save-load-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 3000;
+    }
+
+    .save-load-modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 15px;
+    }
+
+    .modal-header h2 {
+      margin: 0;
+      color: var(--dark);
+      font-size: 24px;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 28px;
+      cursor: pointer;
+      color: var(--secondary);
+      line-height: 1;
+      padding: 0;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-close:hover {
+      color: var(--danger);
+    }
+
+    .save-form {
+      margin-bottom: 25px;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+
+    .save-form input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .save-form button {
+      width: 100%;
+      padding: 12px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+
+    .save-form button:hover {
+      background: #3651d9;
+    }
+
+    .saved-list h3 {
+      margin: 0 0 15px 0;
+      color: var(--dark);
+      font-size: 18px;
+    }
+
+    .saved-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 10px;
+      transition: all 0.2s;
+    }
+
+    .saved-item:hover {
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transform: translateY(-1px);
+    }
+
+    .saved-item-info {
+      flex: 1;
+    }
+
+    .saved-item-name {
+      font-weight: 600;
+      color: var(--dark);
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+
+    .saved-item-date {
+      font-size: 12px;
+      color: var(--secondary);
+    }
+
+    .saved-item-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .saved-item-actions button {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13px;
+      transition: all 0.2s;
+    }
+
+    .btn-load {
+      background: var(--success);
+      color: white;
+    }
+
+    .btn-load:hover {
+      background: #157347;
+    }
+
+    .btn-delete {
+      background: var(--danger);
+      color: white;
+    }
+
+    .btn-delete:hover {
+      background: #bb2d3b;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--secondary);
+    }
+
+    .empty-state i {
+      font-size: 48px;
+      margin-bottom: 15px;
+      opacity: 0.5;
+    }
+
+    /* Desmos Equation Editor Modal */
+    .desmos-editor-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 4000;
+    }
+
+    .desmos-editor-modal.active {
+      display: flex;
+    }
+
+    .desmos-editor-content {
+      background: white;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 800px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 10px 50px rgba(0,0,0,0.5);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .desmos-editor-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 25px;
+      border-bottom: 2px solid var(--border);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 12px 12px 0 0;
+    }
+
+    .desmos-editor-header h2 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .desmos-editor-close {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .desmos-editor-close:hover {
+      background: rgba(255,255,255,0.3);
+      transform: scale(1.1);
+    }
+
+    .desmos-editor-body {
+      padding: 25px;
+    }
+
+    .desmos-preview {
+      margin-bottom: 20px;
+    }
+
+    .desmos-preview-label {
+      font-size: 14px;
+      color: var(--secondary);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .desmos-input-display {
+      background: #f8f9fa;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      padding: 15px;
+      font-size: 18px;
+      font-family: 'Courier New', monospace;
+      min-height: 50px;
+      color: var(--dark);
+      word-wrap: break-word;
+    }
+
+    .desmos-keyboard {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .desmos-key {
+      padding: 12px 8px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+    }
+
+    .desmos-key:hover {
+      background: #f8f9fa;
+      transform: translateY(-2px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .desmos-key:active {
+      transform: translateY(0);
+    }
+
+    .desmos-key.wide {
+      grid-column: span 2;
+    }
+
+    .desmos-key.fn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+    }
+
+    .desmos-key.fn:hover {
+      background: linear-gradient(135deg, #5568d3 0%, #653a8c 100%);
+    }
+
+    .desmos-key.operator {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      color: white;
+      border: none;
+    }
+
+    .desmos-key.operator:hover {
+      background: linear-gradient(135deg, #df7ee8 0%, #e34256 100%);
+    }
+
+    .desmos-key.control {
+      background: #6c757d;
+      color: white;
+      border: none;
+    }
+
+    .desmos-key.control:hover {
+      background: #5c636a;
+    }
+
+    .desmos-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .desmos-tab {
+      padding: 10px 20px;
+      background: transparent;
+      border: none;
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--secondary);
+      transition: all 0.2s;
+    }
+
+    .desmos-tab.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+
+    .desmos-tab:hover {
+      color: var(--primary);
+    }
+
+    .desmos-keyboard-section {
+      display: none;
+    }
+
+    .desmos-keyboard-section.active {
+      display: grid;
+    }
+
+    .desmos-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 2px solid var(--border);
+    }
+
+    .desmos-actions button {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 15px;
+      transition: all 0.2s;
+    }
+
+    .desmos-btn-render {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .desmos-btn-render:hover {
+      background: linear-gradient(135deg, #5568d3 0%, #653a8c 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 247, 0.4);
+    }
+
+    .desmos-btn-cancel {
+      background: var(--secondary);
+      color: white;
+    }
+
+    .desmos-btn-cancel:hover {
+      background: #5c636a;
+    }
+
+    .desmos-btn-clear {
+      background: var(--danger);
+      color: white;
+    }
+
+    .desmos-btn-clear:hover {
+      background: #bb2d3b;
+    }
+
+    /* Responsive top bar for smaller screens */
+    @media (max-width: 1200px) {
+      .top-bar button {
+        padding: 5px 8px;
+        font-size: 12px;
+        gap: 3px;
+      }
+      .top-bar button i {
+        font-size: 11px;
+      }
+      .top-bar > div {
+        gap: 4px;
+      }
+    }
+
+    @media (max-width: 1000px) {
+      .top-bar {
+        padding: 6px 10px;
+      }
+      .top-bar button {
+        padding: 4px 6px;
+        font-size: 11px;
+      }
+      .top-bar button span {
+        display: none;
+      }
+      .top-bar button i {
+        margin: 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -778,38 +1245,220 @@
     </div>
   </div>
 
+  <!-- Desmos Equation Editor Modal -->
+  <div class="desmos-editor-modal" id="desmos-editor-modal">
+    <div class="desmos-editor-content">
+      <div class="desmos-editor-header">
+        <h2><i class="fas fa-calculator"></i> Desmos Equation Editor</h2>
+        <button class="desmos-editor-close" id="desmos-editor-close">&times;</button>
+      </div>
+      <div class="desmos-editor-body">
+        <div class="desmos-preview">
+          <div class="desmos-preview-label">Equation:</div>
+          <div class="desmos-input-display" id="desmos-input-display">y=</div>
+        </div>
+        
+        <div class="desmos-tabs">
+          <button class="desmos-tab active" data-tab="basic">Basic</button>
+          <button class="desmos-tab" data-tab="functions">Functions</button>
+          <button class="desmos-tab" data-tab="greek">Greek</button>
+          <button class="desmos-tab" data-tab="advanced">Advanced</button>
+        </div>
+        
+        <!-- Basic Keyboard -->
+        <div class="desmos-keyboard desmos-keyboard-section active" id="keyboard-basic">
+          <!-- Numbers -->
+          <button class="desmos-key" data-value="7">7</button>
+          <button class="desmos-key" data-value="8">8</button>
+          <button class="desmos-key" data-value="9">9</button>
+          <button class="desmos-key operator" data-value="/">÷</button>
+          <button class="desmos-key operator" data-value="*">×</button>
+          <button class="desmos-key control" data-value="backspace">⌫</button>
+          
+          <button class="desmos-key" data-value="4">4</button>
+          <button class="desmos-key" data-value="5">5</button>
+          <button class="desmos-key" data-value="6">6</button>
+          <button class="desmos-key operator" data-value="-">−</button>
+          <button class="desmos-key operator" data-value="^">^</button>
+          <button class="desmos-key control" data-value="clear">Clear</button>
+          
+          <button class="desmos-key" data-value="1">1</button>
+          <button class="desmos-key" data-value="2">2</button>
+          <button class="desmos-key" data-value="3">3</button>
+          <button class="desmos-key operator" data-value="+">+</button>
+          <button class="desmos-key" data-value="x">x</button>
+          <button class="desmos-key" data-value="y">y</button>
+          
+          <button class="desmos-key" data-value="0">0</button>
+          <button class="desmos-key" data-value=".">.</button>
+          <button class="desmos-key" data-value="(">(</button>
+          <button class="desmos-key" data-value=")">)</button>
+          <button class="desmos-key" data-value="=">=</button>
+          <button class="desmos-key" data-value=",">,</button>
+        </div>
+        
+        <!-- Functions Keyboard -->
+        <div class="desmos-keyboard desmos-keyboard-section" id="keyboard-functions">
+          <button class="desmos-key fn" data-value="\\sin(">sin</button>
+          <button class="desmos-key fn" data-value="\\cos(">cos</button>
+          <button class="desmos-key fn" data-value="\\tan(">tan</button>
+          <button class="desmos-key fn" data-value="\\sec(">sec</button>
+          <button class="desmos-key fn" data-value="\\csc(">csc</button>
+          <button class="desmos-key fn" data-value="\\cot(">cot</button>
+          
+          <button class="desmos-key fn" data-value="\\arcsin(">arcsin</button>
+          <button class="desmos-key fn" data-value="\\arccos(">arccos</button>
+          <button class="desmos-key fn" data-value="\\arctan(">arctan</button>
+          <button class="desmos-key fn" data-value="\\sinh(">sinh</button>
+          <button class="desmos-key fn" data-value="\\cosh(">cosh</button>
+          <button class="desmos-key fn" data-value="\\tanh(">tanh</button>
+          
+          <button class="desmos-key fn" data-value="\\sqrt{">√</button>
+          <button class="desmos-key fn" data-value="\\ln(">ln</button>
+          <button class="desmos-key fn" data-value="\\log(">log</button>
+          <button class="desmos-key fn" data-value="\\exp(">exp</button>
+          <button class="desmos-key fn" data-value="\\abs(">|x|</button>
+          <button class="desmos-key fn" data-value="\\frac{">÷ frac</button>
+          
+          <button class="desmos-key" data-value="x">x</button>
+          <button class="desmos-key" data-value="y">y</button>
+          <button class="desmos-key" data-value="("> (</button>
+          <button class="desmos-key" data-value=")">)</button>
+          <button class="desmos-key control" data-value="backspace">⌫</button>
+          <button class="desmos-key control" data-value="clear">Clear</button>
+        </div>
+        
+        <!-- Greek Letters Keyboard -->
+        <div class="desmos-keyboard desmos-keyboard-section" id="keyboard-greek">
+          <button class="desmos-key" data-value="\\alpha">α</button>
+          <button class="desmos-key" data-value="\\beta">β</button>
+          <button class="desmos-key" data-value="\\gamma">γ</button>
+          <button class="desmos-key" data-value="\\delta">δ</button>
+          <button class="desmos-key" data-value="\\epsilon">ε</button>
+          <button class="desmos-key" data-value="\\zeta">ζ</button>
+          
+          <button class="desmos-key" data-value="\\eta">η</button>
+          <button class="desmos-key" data-value="\\theta">θ</button>
+          <button class="desmos-key" data-value="\\iota">ι</button>
+          <button class="desmos-key" data-value="\\kappa">κ</button>
+          <button class="desmos-key" data-value="\\lambda">λ</button>
+          <button class="desmos-key" data-value="\\mu">μ</button>
+          
+          <button class="desmos-key" data-value="\\nu">ν</button>
+          <button class="desmos-key" data-value="\\xi">ξ</button>
+          <button class="desmos-key" data-value="\\pi">π</button>
+          <button class="desmos-key" data-value="\\rho">ρ</button>
+          <button class="desmos-key" data-value="\\sigma">σ</button>
+          <button class="desmos-key" data-value="\\tau">τ</button>
+          
+          <button class="desmos-key" data-value="\\phi">φ</button>
+          <button class="desmos-key" data-value="\\chi">χ</button>
+          <button class="desmos-key" data-value="\\psi">ψ</button>
+          <button class="desmos-key" data-value="\\omega">ω</button>
+          <button class="desmos-key control" data-value="backspace">⌫</button>
+          <button class="desmos-key control" data-value="clear">Clear</button>
+        </div>
+        
+        <!-- Advanced Keyboard -->
+        <div class="desmos-keyboard desmos-keyboard-section" id="keyboard-advanced">
+          <button class="desmos-key operator" data-value="\\leq">≤</button>
+          <button class="desmos-key operator" data-value="\\geq">≥</button>
+          <button class="desmos-key operator" data-value="\\neq">≠</button>
+          <button class="desmos-key operator" data-value="\\approx">≈</button>
+          <button class="desmos-key operator" data-value="\\infty">∞</button>
+          <button class="desmos-key operator" data-value="\\sum">Σ</button>
+          
+          <button class="desmos-key operator" data-value="\\prod">∏</button>
+          <button class="desmos-key operator" data-value="\\int">∫</button>
+          <button class="desmos-key operator" data-value="\\lim">lim</button>
+          <button class="desmos-key operator" data-value="\\partial">∂</button>
+          <button class="desmos-key fn" data-value="\\left(">( )</button>
+          <button class="desmos-key fn" data-value="\\left[">[ ]</button>
+          
+          <button class="desmos-key fn" data-value="\\left\\{">{ }</button>
+          <button class="desmos-key fn" data-value="_{">\_sub</button>
+          <button class="desmos-key fn" data-value="^{">^sup</button>
+          <button class="desmos-key operator" data-value="\\cdot">·</button>
+          <button class="desmos-key operator" data-value="\\pm">±</button>
+          <button class="desmos-key operator" data-value="\\times">×</button>
+          
+          <button class="desmos-key" data-value="x">x</button>
+          <button class="desmos-key" data-value="y">y</button>
+          <button class="desmos-key" data-value="r">r</button>
+          <button class="desmos-key" data-value="t">t</button>
+          <button class="desmos-key control" data-value="backspace">⌫</button>
+          <button class="desmos-key control" data-value="clear">Clear</button>
+        </div>
+        
+        <div class="desmos-actions">
+          <button class="desmos-btn-clear" id="desmos-clear-btn"><i class="fas fa-eraser"></i> Clear</button>
+          <button class="desmos-btn-cancel" id="desmos-cancel-btn"><i class="fas fa-times"></i> Cancel</button>
+          <button class="desmos-btn-render" id="desmos-render-btn"><i class="fas fa-magic"></i> Render Graph</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Save/Load Modal -->
+  <div class="save-load-modal" id="save-load-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modal-title">Save / Load Whiteboard</h2>
+        <button class="modal-close" id="modal-close">&times;</button>
+      </div>
+      
+      <div class="save-form">
+        <input type="text" id="save-name-input" placeholder="Enter a name for this whiteboard..." />
+        <button id="save-whiteboard-btn"><i class="fas fa-save"></i> Save Whiteboard</button>
+      </div>
+      
+      <div class="saved-list">
+        <h3>Saved Whiteboards</h3>
+        <div id="saved-list-container">
+          <!-- Saved items will be populated here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="main-content">
     <div class="top-bar">
       <div>
         <button id="undo">
-          <i class="fas fa-undo"></i> Undo
+          <i class="fas fa-undo"></i><span>Undo</span>
         </button>
         <button id="delete" class="btn-danger">
-          <i class="fas fa-trash"></i> Delete
+          <i class="fas fa-trash"></i><span>Delete</span>
         </button>
         <button id="clear">
-          <i class="fas fa-broom"></i> Clear
+          <i class="fas fa-broom"></i><span>Clear</span>
         </button>
       </div>
       <div>
         <button id="split-screen-btn">
-          <i class="fas fa-columns"></i> Split Screen
+          <i class="fas fa-columns"></i><span>Split Screen</span>
         </button>
         <button id="toggle-grid">
-          <i class="fas fa-border-all"></i> Grid
+          <i class="fas fa-border-all"></i><span>Grid</span>
         </button>
         <button id="bg-color-btn" title="Change background color">
-          <i class="fas fa-paint-roller"></i> Background
+          <i class="fas fa-paint-roller"></i><span>Background</span>
+        </button>
+        <button id="save-btn">
+          <i class="fas fa-save"></i><span>Save</span>
+        </button>
+        <button id="load-btn">
+          <i class="fas fa-folder-open"></i><span>Load</span>
         </button>
         <button id="export">
-          <i class="fas fa-download"></i> Export PNG
+          <i class="fas fa-download"></i><span>Export PNG</span>
         </button>
         <button id="import-image-btn">
-          <i class="fas fa-upload"></i> Import Image
+          <i class="fas fa-upload"></i><span>Import Image</span>
         </button>
         <input id="import" type="file" accept="image/*" style="display:none" />
         <button id="import-pdf-btn">
-          <i class="fas fa-file-pdf"></i> Import PDF
+          <i class="fas fa-file-pdf"></i><span>Import PDF</span>
         </button>
         <input id="import-pdf" type="file" accept="application/pdf" style="display:none" />
       </div>
@@ -1262,6 +1911,7 @@
       // Update quick-access toolbar buttons
       document.querySelectorAll('.quick-tool-btn').forEach(btn => btn.classList.remove('active'));
       if (t === Tool.Select) document.getElementById('quick-select').classList.add('active');
+
       else if (t === Tool.Hand) document.getElementById('quick-hand').classList.add('active');
       else if (t === Tool.Pen) document.getElementById('quick-pen').classList.add('active');
       
@@ -1295,7 +1945,6 @@
     document.getElementById('quick-select').onclick = () => setTool(Tool.Select);
     document.getElementById('quick-hand').onclick = () => setTool(Tool.Hand);
     document.getElementById('quick-pen').onclick = () => setTool(Tool.Pen);
-
     document.getElementById('panel-color-preview').addEventListener('click', ()=> panelColorInput.click());
 
     document.getElementById('undo').onclick = () => {
@@ -1339,6 +1988,422 @@
       a.click();
     };
 
+    // ========== SAVE/LOAD FUNCTIONALITY ==========
+    const STORAGE_KEY_PREFIX = 'whiteboard_save_';
+    const STORAGE_INDEX_KEY = 'whiteboard_saves_index';
+
+    // Get all saved whiteboards
+    function getSavedWhiteboards() {
+      const indexStr = localStorage.getItem(STORAGE_INDEX_KEY);
+      if (!indexStr) return [];
+      try {
+        return JSON.parse(indexStr);
+      } catch (e) {
+        console.error('Error parsing saved whiteboards index:', e);
+        return [];
+      }
+    }
+
+    // Save the index of whiteboards
+    function saveSavedWhiteboards(saves) {
+      localStorage.setItem(STORAGE_INDEX_KEY, JSON.stringify(saves));
+    }
+
+    // Serialize whiteboard state
+    function serializeWhiteboard() {
+      const state = {
+        version: 1,
+        objects: [],
+        bgImage: null,
+        bgImageSrc: null,
+        canvasBgColor: canvasBgColor,
+        scale: scale,
+        camX: camX,
+        camY: camY,
+        color: color,
+        baseWidth: baseWidth,
+        eraserWidth: eraserWidth,
+        pdfData: null
+      };
+
+      // Serialize objects (handle images separately)
+      for (const obj of objects) {
+        const serialized = { ...obj };
+        
+        // Handle image objects - store their data URL
+        if (obj.type === 'image' && obj.img) {
+          try {
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = obj.img.naturalWidth || obj.img.width;
+            tempCanvas.height = obj.img.naturalHeight || obj.img.height;
+            const tempCtx = tempCanvas.getContext('2d');
+            tempCtx.drawImage(obj.img, 0, 0);
+            serialized.imgSrc = tempCanvas.toDataURL('image/png');
+            delete serialized.img; // Remove the Image object (can't serialize)
+          } catch (e) {
+            console.warn('Could not serialize image object:', e);
+            serialized.imgSrc = obj.src || null;
+            delete serialized.img;
+          }
+        }
+        
+        state.objects.push(serialized);
+      }
+
+      // Serialize background image
+      if (bgImage) {
+        try {
+          const tempCanvas = document.createElement('canvas');
+          tempCanvas.width = bgImage.naturalWidth || bgImage.width;
+          tempCanvas.height = bgImage.naturalHeight || bgImage.height;
+          const tempCtx = tempCanvas.getContext('2d');
+          tempCtx.drawImage(bgImage, 0, 0);
+          state.bgImageSrc = tempCanvas.toDataURL('image/png');
+        } catch (e) {
+          console.warn('Could not serialize background image:', e);
+        }
+      }
+
+      // Save PDF state if PDF is loaded
+      if (pdfDoc) {
+        state.pdfData = {
+          currentPage: pdfCurrentPage,
+          totalPages: pdfTotalPages,
+          pageAnnotations: pdfPageAnnotations
+        };
+      }
+
+      return state;
+    }
+
+    // Determine whether a serialized whiteboard state is effectively empty.
+    // We consider it non-empty when there are any objects, a background image,
+    // or PDF annotations present. Simple default settings (colors/scale) do
+    // not count as content.
+    function isStateEmpty(state) {
+      if (!state) return true;
+      if (Array.isArray(state.objects) && state.objects.length > 0) return false;
+      if (state.bgImageSrc) return false;
+      if (state.pdfData) {
+        // If there are any page annotations (non-empty arrays) consider it non-empty
+        const anns = state.pdfData.pageAnnotations || {};
+        for (const k of Object.keys(anns)) {
+          if (Array.isArray(anns[k]) && anns[k].length > 0) return false;
+        }
+      }
+      return true;
+    }
+
+    // Deserialize and restore whiteboard state
+    async function deserializeWhiteboard(state) {
+      if (!state || state.version !== 1) {
+        throw new Error('Invalid or incompatible whiteboard data');
+      }
+
+      // Clear current state
+      objects.length = 0;
+      selectedId = null;
+      bgImage = null;
+      pdfDoc = null;
+      pdfCurrentPage = 1;
+      pdfTotalPages = 0;
+      pdfPageAnnotations = {};
+      document.getElementById('pdf-controls').classList.remove('active');
+
+      // Restore settings
+      canvasBgColor = state.canvasBgColor || '#ffffff';
+      scale = state.scale || 1;
+      camX = state.camX || 0;
+      camY = state.camY || 0;
+      color = state.color || '#111111';
+      baseWidth = state.baseWidth || 4;
+      eraserWidth = state.eraserWidth || 16;
+
+      // Update UI inputs
+      document.getElementById('panel-color-input').value = color;
+      document.getElementById('panel-width').value = baseWidth;
+      document.getElementById('panel-eraser-width').value = eraserWidth;
+      document.getElementById('bg-color-input').value = canvasBgColor;
+      updateColorPreviewAnywhere();
+      setBgColor(canvasBgColor);
+
+      // Restore background image
+      if (state.bgImageSrc) {
+        await new Promise((resolve, reject) => {
+          const img = new Image();
+          img.onload = () => {
+            bgImage = img;
+            resolve();
+          };
+          img.onerror = reject;
+          img.src = state.bgImageSrc;
+        });
+      }
+
+      // Restore objects
+      for (const objData of state.objects) {
+        const obj = { ...objData };
+        
+        // Restore image objects
+        if (obj.type === 'image' && obj.imgSrc) {
+          await new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => {
+              obj.img = img;
+              obj.src = obj.imgSrc;
+              delete obj.imgSrc;
+              objects.push(obj);
+              resolve();
+            };
+            img.onerror = () => {
+              console.warn('Could not load image object');
+              resolve(); // Continue even if image fails
+            };
+            img.src = obj.imgSrc;
+          });
+        } else {
+          objects.push(obj);
+        }
+      }
+
+      // Restore PDF state if available
+      if (state.pdfData) {
+        pdfCurrentPage = state.pdfData.currentPage;
+        pdfTotalPages = state.pdfData.totalPages;
+        pdfPageAnnotations = state.pdfData.pageAnnotations || {};
+        // Note: Can't restore actual PDF document, user needs to re-import
+      }
+
+      draw();
+    }
+
+    // Save whiteboard with a name
+    function saveWhiteboard(name) {
+      if (!name || !name.trim()) {
+        alert('Please enter a name for the whiteboard');
+        return;
+      }
+      const state = serializeWhiteboard();
+      if (isStateEmpty(state)) {
+        alert('Cannot save an empty whiteboard. Add content before saving.');
+        return;
+      }
+
+      const saves = getSavedWhiteboards();
+      const id = 'save_' + Date.now();
+      const timestamp = new Date().toISOString();
+      
+      // Save the whiteboard data
+      try {
+        localStorage.setItem(STORAGE_KEY_PREFIX + id, JSON.stringify(state));
+      } catch (e) {
+        if (e.name === 'QuotaExceededError') {
+          alert('Storage quota exceeded! Your whiteboard is too large. Try deleting some old saves or reducing image sizes.');
+          return;
+        }
+        throw e;
+      }
+      
+      // Add to index
+      saves.push({ id, name: name.trim(), timestamp });
+      saveSavedWhiteboards(saves);
+      
+      alert('Whiteboard saved successfully!');
+      refreshSavedList();
+      document.getElementById('save-name-input').value = '';
+    }
+
+    // Load whiteboard by ID
+    async function loadWhiteboard(id) {
+      const dataStr = localStorage.getItem(STORAGE_KEY_PREFIX + id);
+      if (!dataStr) {
+        alert('Whiteboard data not found!');
+        return;
+      }
+      
+      try {
+        const state = JSON.parse(dataStr);
+        await deserializeWhiteboard(state);
+        alert('Whiteboard loaded successfully!');
+        closeSaveLoadModal();
+      } catch (e) {
+        console.error('Error loading whiteboard:', e);
+        alert('Failed to load whiteboard: ' + e.message);
+      }
+    }
+
+    // Delete whiteboard by ID
+    function deleteWhiteboard(id) {
+      if (!confirm('Are you sure you want to delete this whiteboard?')) {
+        return;
+      }
+
+      // Remove the saved data and update the index
+      try {
+        localStorage.removeItem(STORAGE_KEY_PREFIX + id);
+      } catch (e) {
+        console.warn('Failed to remove saved whiteboard from localStorage:', e);
+      }
+
+      // Remove from the saved index and persist
+      const saves = getSavedWhiteboards().filter(s => s.id !== id);
+      saveSavedWhiteboards(saves);
+
+      // Refresh the saved list UI
+      const container = document.getElementById('saved-list-container');
+      if (!container) return;
+
+      if (saves.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-folder-open"></i>
+            <p>No saved whiteboards yet</p>
+          </div>
+        `;
+        return;
+      }
+
+      // Sort by timestamp (newest first)
+      saves.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+      container.innerHTML = saves.map(save => {
+        const date = new Date(save.timestamp);
+        const dateStr = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+
+        return `
+          <div class="saved-item">
+            <div class="saved-item-info">
+              <div class="saved-item-name">${escapeHtml(save.name)}</div>
+              <div class="saved-item-date">${dateStr}</div>
+            </div>
+            <div class="saved-item-actions">
+              <button class="btn-load" onclick="loadWhiteboard('${save.id}')">
+                <i class="fas fa-folder-open"></i> Load
+              </button>
+              <button class="btn-delete" onclick="deleteWhiteboard('${save.id}')">
+                <i class="fas fa-trash"></i> Delete
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Utility function to escape HTML
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // Modal controls
+    function openSaveLoadModal() {
+      document.getElementById('save-load-modal').classList.add('active');
+      refreshSavedList();
+      document.getElementById('save-name-input').focus();
+    }
+
+    function closeSaveLoadModal() {
+      document.getElementById('save-load-modal').classList.remove('active');
+    }
+
+    // Event listeners for save/load
+    document.getElementById('save-btn').onclick = () => {
+      openSaveLoadModal();
+    };
+
+    document.getElementById('load-btn').onclick = () => {
+      openSaveLoadModal();
+    };
+
+    document.getElementById('modal-close').onclick = () => {
+      closeSaveLoadModal();
+    };
+
+    document.getElementById('save-whiteboard-btn').onclick = () => {
+      const name = document.getElementById('save-name-input').value;
+      saveWhiteboard(name);
+    };
+
+    // Allow Enter key to save
+    document.getElementById('save-name-input').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        const name = e.target.value;
+        saveWhiteboard(name);
+      }
+    });
+
+    // Close modal when clicking outside
+    document.getElementById('save-load-modal').addEventListener('click', (e) => {
+      if (e.target.id === 'save-load-modal') {
+        closeSaveLoadModal();
+      }
+    });
+
+    // Make functions globally accessible for onclick handlers in HTML
+    window.loadWhiteboard = loadWhiteboard;
+    window.deleteWhiteboard = deleteWhiteboard;
+
+    // Auto-save feature (optional, every 2 minutes)
+    let autoSaveInterval = null;
+    function enableAutoSave(intervalMinutes = 2) {
+      if (autoSaveInterval) clearInterval(autoSaveInterval);
+      
+      autoSaveInterval = setInterval(() => {
+        const state = serializeWhiteboard();
+        try {
+          if (isStateEmpty(state)) {
+            // If current board is empty, remove any existing autosave so we don't
+            // prompt the user later to restore an empty board.
+            localStorage.removeItem('whiteboard_autosave');
+            console.log('Auto-save skipped for empty whiteboard');
+          } else {
+            localStorage.setItem('whiteboard_autosave', JSON.stringify(state));
+            console.log('Auto-saved at', new Date().toLocaleTimeString());
+          }
+        } catch (e) {
+          console.warn('Auto-save failed:', e);
+        }
+      }, intervalMinutes * 60 * 1000);
+    }
+
+    function loadAutoSave() {
+      const autoSaveStr = localStorage.getItem('whiteboard_autosave');
+      if (!autoSaveStr) return false;
+      try {
+        const state = JSON.parse(autoSaveStr);
+        if (isStateEmpty(state)) {
+          // Empty autosave — remove it and don't prompt the user
+          localStorage.removeItem('whiteboard_autosave');
+          console.log('Removed empty autosave');
+          return false;
+        }
+        if (confirm('An auto-saved whiteboard was found. Do you want to restore it?')) {
+          try {
+            deserializeWhiteboard(state);
+            return true;
+          } catch (e) {
+            console.error('Failed to load auto-save:', e);
+            return false;
+          }
+        }
+      } catch (e) {
+        console.error('Failed to parse auto-save data:', e);
+        // If parsing fails, remove corrupt autosave
+        localStorage.removeItem('whiteboard_autosave');
+      }
+      return false;
+    }
+
+    // Enable auto-save on load
+    enableAutoSave(2);
+    
+    // Check for auto-save on page load
+    setTimeout(() => {
+      loadAutoSave();
+    }, 1000);
+    // ========== END SAVE/LOAD FUNCTIONALITY ==========
+
     // Connect import buttons to file inputs
     document.getElementById('import-image-btn').onclick = () => {
       document.getElementById('import').click();
@@ -1346,139 +2411,165 @@
 
     document.getElementById('import-pdf-btn').onclick = () => {
       document.getElementById('import-pdf').click();
-    };
+    // Load whiteboard by ID
+    async function loadWhiteboard(id) {
+      const dataStr = localStorage.getItem(STORAGE_KEY_PREFIX + id);
+      if (!dataStr) {
+        alert('Whiteboard data not found!');
+        return;
+      }
 
-    document.getElementById('import').onchange = (e) => {
-      const f = e.target.files && e.target.files[0];
-      if (!f) return;
-      const img = new Image();
-      img.onload = () => { bgImage = img; draw(); };
-      img.src = URL.createObjectURL(f);
-      e.target.value = '';
-    };
-
-    // PDF Import functionality
-    document.getElementById('import-pdf').onchange = async (e) => {
-      const f = e.target.files && e.target.files[0];
-      if (!f) return;
-      
       try {
-        // Set PDF.js worker
-        if (typeof pdfjsLib !== 'undefined') {
-          pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        const state = JSON.parse(dataStr);
+        // If saved state is empty, skip loading it without prompting
+        if (isStateEmpty(state)) {
+          console.log('Skipped loading empty saved whiteboard:', id);
+          closeSaveLoadModal();
+          return;
         }
-        
-        const arrayBuffer = await f.arrayBuffer();
-        pdfDoc = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-        pdfTotalPages = pdfDoc.numPages;
-        pdfCurrentPage = 1;
-        pdfInitialLoad = true; // Reset flag when loading new PDF
-        pdfPageAnnotations = {}; // Clear annotations when loading new PDF
-        
-        await loadPDFPage(pdfCurrentPage);
-        updatePDFControls();
-        document.getElementById('pdf-controls').classList.add('active');
-      } catch (err) {
-        console.error('Error loading PDF:', err);
-        alert('Failed to load PDF. Please try another file.');
-      }
-      
-      e.target.value = '';
-    };
-
-    // Save current page annotations before switching pages
-    function saveCurrentPageAnnotations() {
-      if (pdfDoc && pdfCurrentPage) {
-        // Deep copy the objects array to preserve annotations
-        pdfPageAnnotations[pdfCurrentPage] = JSON.parse(JSON.stringify(objects));
+        await deserializeWhiteboard(state);
+        alert('Whiteboard loaded successfully!');
+        closeSaveLoadModal();
+      } catch (e) {
+        console.error('Error loading whiteboard:', e);
+        alert('Failed to load whiteboard: ' + e.message);
       }
     }
 
-    // Load annotations for a specific page
-    function loadPageAnnotations(pageNum) {
-      // Clear current objects
-      objects.length = 0;
-      selectedId = null;
-      
-      // Load saved annotations for this page if they exist
-      if (pdfPageAnnotations[pageNum]) {
-        // Restore the annotations from storage
-        const savedAnnotations = pdfPageAnnotations[pageNum];
-        objects.push(...savedAnnotations);
+    // Delete whiteboard by ID
+    function deleteWhiteboard(id) {
+      if (!confirm('Are you sure you want to delete this whiteboard?')) {
+        return;
       }
+
+      // Remove the saved data and update the index
+      localStorage.removeItem(STORAGE_KEY_PREFIX + id);
+      const saves = getSavedWhiteboards();
+      const filtered = saves.filter(s => s.id !== id);
+      saveSavedWhiteboards(filtered);
+      refreshSavedList();
     }
 
-    async function loadPDFPage(pageNum, fromPageNum = null) {
-      if (!pdfDoc) return;
-      
-      // Save annotations of current page before switching
-      // Use fromPageNum if provided (the page we're leaving), otherwise use pdfCurrentPage
-      const leavingPage = fromPageNum !== null ? fromPageNum : pdfCurrentPage;
-      if (pdfDoc && leavingPage !== pageNum && leavingPage) {
-        // Save with the page number we're leaving from
-        pdfPageAnnotations[leavingPage] = JSON.parse(JSON.stringify(objects));
+    // Refresh the saved list UI
+    function refreshSavedList() {
+      const container = document.getElementById('saved-list-container');
+      let saves = getSavedWhiteboards();
+
+      // Filter out any saves whose data is empty or missing to avoid offering
+      // empty whiteboards to the user. Clean up index as needed.
+      const cleaned = [];
+      for (const s of saves) {
+        try {
+          const dataStr = localStorage.getItem(STORAGE_KEY_PREFIX + s.id);
+          if (!dataStr) continue; // missing data, skip it
+          const state = JSON.parse(dataStr);
+          if (isStateEmpty(state)) {
+            // remove empty save
+            localStorage.removeItem(STORAGE_KEY_PREFIX + s.id);
+            continue;
+          }
+          cleaned.push(s);
+        } catch (e) {
+          // parsing error — remove corrupt entry
+          localStorage.removeItem(STORAGE_KEY_PREFIX + s.id);
+        }
       }
+      saves = cleaned;
+
+      if (saves.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-folder-open"></i>
+            <p>No saved whiteboards yet</p>
+          </div>
+        `;
+        // persist cleaned (possibly empty) index
+        saveSavedWhiteboards(saves);
+        return;
+      }
+
+      // Sort by timestamp (newest first)
+      saves.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+      container.innerHTML = saves.map(save => {
+        const date = new Date(save.timestamp);
+        const dateStr = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+
+        return `
+          <div class="saved-item">
+            <div class="saved-item-info">
+              <div class="saved-item-name">${escapeHtml(save.name)}</div>
+              <div class="saved-item-date">${dateStr}</div>
+            </div>
+            <div class="saved-item-actions">
+              <button class="btn-load" onclick="loadWhiteboard('${save.id}')">
+                <i class="fas fa-folder-open"></i> Load
+              </button>
+              <button class="btn-delete" onclick="deleteWhiteboard('${save.id}')">
+                <i class="fas fa-trash"></i> Delete
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // Persist the cleaned index in case we removed entries
+      saveSavedWhiteboards(saves);
+    }
       
-      const page = await pdfDoc.getPage(pageNum);
-      const viewport = page.getViewport({ scale: pdfScale });
-      
-      // Create a temporary canvas to render PDF page
-      const tempCanvas = document.createElement('canvas');
-      const tempCtx = tempCanvas.getContext('2d');
-      tempCanvas.width = viewport.width;
-      tempCanvas.height = viewport.height;
-      
-      await page.render({
+      page.render({
         canvasContext: tempCtx,
         viewport: viewport
-      }).promise;
-      
-      // Convert to image and set as background
-      const img = new Image();
-      img.onload = () => {
-        bgImage = img;
-        
-        // Only auto-fit on initial load, preserve zoom on page navigation
-        if (pdfInitialLoad) {
-          // Calculate the available canvas space
-          const canvasRect = canvas.getBoundingClientRect();
-          const canvasWidth = canvasRect.width;
-          const canvasHeight = canvasRect.height;
+      }).promise.then(() => {
+        // Convert to image and set as background
+        const img = new Image();
+        img.onload = () => {
+          bgImage = img;
           
-          // Reserve space for PDF controls (approximately 100px from bottom)
-          const controlsHeight = 100;
-          const availableHeight = canvasHeight - controlsHeight;
-          const availableWidth = canvasWidth;
+          // Only auto-fit on initial load, preserve zoom on page navigation
+          if (pdfInitialLoad) {
+            // Calculate the available canvas space
+            const canvasRect = canvas.getBoundingClientRect();
+            const canvasWidth = canvasRect.width;
+            const canvasHeight = canvasRect.height;
+            
+            // Reserve space for PDF controls (approximately 100px from bottom)
+            const controlsHeight = 100;
+            const availableHeight = canvasHeight - controlsHeight;
+            const availableWidth = canvasWidth;
+            
+            // Calculate scale to fit the entire PDF page
+            const scaleX = availableWidth / img.width;
+            const scaleY = availableHeight / img.height;
+            const fitScale = Math.min(scaleX, scaleY) * 0.95; // 0.95 for a small margin
+            
+            // Set the scale to fit the page
+            scale = fitScale;
+            
+            // Center the PDF horizontally and position it with space at bottom
+            const scaledWidth = img.width * fitScale;
+            const scaledHeight = img.height * fitScale;
+            
+            // Center horizontally
+            camX = (canvasWidth - scaledWidth) / 2;
+            
+            // Position vertically with space at bottom for controls
+            // Center the remaining vertical space
+            camY = (availableHeight - scaledHeight) / 2;
+            
+            // Clear the flag after initial load
+            pdfInitialLoad = false;
+          }
           
-          // Calculate scale to fit the entire PDF page
-          const scaleX = availableWidth / img.width;
-          const scaleY = availableHeight / img.height;
-          const fitScale = Math.min(scaleX, scaleY) * 0.95; // 0.95 for a small margin
+          // Load annotations for this page
+          loadPageAnnotations(pageNum);
           
-          // Set the scale to fit the page
-          scale = fitScale;
-          
-          // Center the PDF horizontally and position it with space at bottom
-          const scaledWidth = img.width * fitScale;
-          const scaledHeight = img.height * fitScale;
-          
-          // Center horizontally
-          camX = (canvasWidth - scaledWidth) / 2;
-          
-          // Position vertically with space at bottom for controls
-          // Center the remaining vertical space
-          camY = (availableHeight - scaledHeight) / 2;
-          
-          // Clear the flag after initial load
-          pdfInitialLoad = false;
-        }
-        
-        // Load annotations for this page
-        loadPageAnnotations(pageNum);
-        
-        draw();
-      };
-      img.src = tempCanvas.toDataURL();
+          draw();
+        };
+        img.src = tempCanvas.toDataURL();
+      }).catch((err) => {
+        console.error('PDF page render failed:', err);
+      });
     }
 
     function updatePDFControls() {
@@ -1603,16 +2694,92 @@
       return s;
     }
 
-    // Desmos Graph tool - uses sanitizer
-    btns.graph.onclick = async () => {
-      setTool(Tool.Graph);
-      let eq = prompt("Enter a mathematical expression (e.g. y = sin(x), sin(x), x^2):");
-      if (!eq || !eq.trim()) { setTool(Tool.Select); return; }
-
-      // sanitize & convert to LaTeX-friendly string
-      const latex = sanitizeToLatex(eq.trim());
+    // ========== DESMOS EQUATION EDITOR ==========
+    let desmosEquation = 'y=';
+    
+    function openDesmosEditor() {
+      document.getElementById('desmos-editor-modal').classList.add('active');
+      desmosEquation = 'y=';
+      updateDesmosDisplay();
+    }
+    
+    function closeDesmosEditor() {
+      document.getElementById('desmos-editor-modal').classList.remove('active');
+    }
+    
+    function updateDesmosDisplay() {
+      document.getElementById('desmos-input-display').textContent = desmosEquation || 'y=';
+    }
+    
+    function addToDesmosEquation(value) {
+      if (value === 'backspace') {
+        if (desmosEquation.length > 0) {
+          desmosEquation = desmosEquation.slice(0, -1);
+        }
+      } else if (value === 'clear') {
+        desmosEquation = 'y=';
+      } else {
+        desmosEquation += value;
+      }
+      updateDesmosDisplay();
+    }
+    
+    // Tab switching
+    document.querySelectorAll('.desmos-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        // Update tab active state
+        document.querySelectorAll('.desmos-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        
+        // Show corresponding keyboard
+        const tabName = tab.getAttribute('data-tab');
+        document.querySelectorAll('.desmos-keyboard-section').forEach(section => {
+          section.classList.remove('active');
+        });
+        document.getElementById(`keyboard-${tabName}`).classList.add('active');
+      });
+    });
+    
+    // Keyboard key clicks
+    document.querySelectorAll('.desmos-key').forEach(key => {
+      key.addEventListener('click', () => {
+        const value = key.getAttribute('data-value');
+        addToDesmosEquation(value);
+      });
+    });
+    
+    // Modal controls
+    document.getElementById('desmos-editor-close').onclick = closeDesmosEditor;
+    document.getElementById('desmos-cancel-btn').onclick = closeDesmosEditor;
+    document.getElementById('desmos-clear-btn').onclick = () => {
+      desmosEquation = 'y=';
+      updateDesmosDisplay();
+    };
+    
+    // Close modal when clicking outside
+    document.getElementById('desmos-editor-modal').addEventListener('click', (e) => {
+      if (e.target.id === 'desmos-editor-modal') {
+        closeDesmosEditor();
+      }
+    });
+    
+    // Render button
+    document.getElementById('desmos-render-btn').onclick = async () => {
+      if (!desmosEquation || desmosEquation.trim() === '' || desmosEquation === 'y=') {
+        alert('Please enter an equation first!');
+        return;
+      }
+      
       try {
-        const { img, w, h } = await renderDesmosEquation(latex);
+        // Sanitize the user input into a LaTeX string Desmos expects.
+        // This converts plain names like "sin", "cos", "tan" into "\sin", "\cos", "\tan" etc.
+        // and normalizes backslashes/spaces. Use the existing sanitizer function.
+        const latexToRender = sanitizeToLatex(desmosEquation);
+
+        // Debug (optional): uncomment to inspect final LaTeX string
+        // console.log('Rendering Desmos LaTeX:', latexToRender);
+
+        const { img, w, h } = await renderDesmosEquation(latexToRender);
         const worldW = (w) / (DPR * scale);
         const worldH = (h) / (DPR * scale);
         const rect = canvas.getBoundingClientRect();
@@ -1630,13 +2797,41 @@
         };
         objects.push(obj);
         selectedId = obj.id;
+        setTool(Tool.Select);
+        draw();
+        closeDesmosEditor();
       } catch (err) {
         console.error("Desmos error:", err);
-        alert("Failed to render graph. Try simpler expressions (e.g. y=\\sin(x) or x^2).");
+        alert("Failed to render graph. Please check your equation syntax.");
       }
-      setTool(Tool.Select);
-      draw();
     };
+    
+    // Physical keyboard support for equation editor
+    document.addEventListener('keydown', (e) => {
+      const modal = document.getElementById('desmos-editor-modal');
+      if (!modal.classList.contains('active')) return;
+      
+      if (e.key === 'Escape') {
+        closeDesmosEditor();
+      } else if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        document.getElementById('desmos-render-btn').click();
+      } else if (e.key === 'Backspace') {
+        e.preventDefault();
+        addToDesmosEquation('backspace');
+      } else if (e.key.length === 1) {
+        // Allow typing regular characters
+        e.preventDefault();
+        addToDesmosEquation(e.key);
+      }
+    });
+    
+    // Graph tool button - open equation editor
+    btns.graph.onclick = () => {
+      setTool(Tool.Graph);
+      openDesmosEditor();
+    };
+    // ========== END DESMOS EQUATION EDITOR ==========
 
     // Desmos embed + screenshot to image
     let desmosLoaded = false;
@@ -2507,15 +3702,11 @@
             const newR = Math.hypot(world.x - cx, world.y - cy);
             obj.radius = newR;
             const pts = [];
-            for (let i=0;i<5;i++) { const ang = obj.rotation + i * (2*Math.PI/5) - Math.PI/2; pts.push([cx + obj.radius * Math.cos(ang), cy + obj.radius * Math.sin(ang)]); }
+            for (let i = 0; i < 5; i++) {
+              const ang = obj.rotation + i * (2 * Math.PI / 5) - Math.PI / 2;
+              pts.push([cx + obj.radius * Math.cos(ang), cy + obj.radius * Math.sin(ang)]);
+            }
             obj.points = pts;
-            draw();
-          } else if (obj.type === 'arrow') {
-            // for arrow, treat corners as endpoints
-            if (activeHandle === 'tl') { obj.x1 = world.x; obj.y1 = world.y; }
-            if (activeHandle === 'tr') { obj.x2 = world.x; obj.y2 = world.y; }
-            if (activeHandle === 'bl') { obj.x1 = world.x; obj.y1 = world.y; }
-            if (activeHandle === 'br') { obj.x2 = world.x; obj.y2 = world.y; }
             draw();
           }
         }
