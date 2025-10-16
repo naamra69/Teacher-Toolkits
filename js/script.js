@@ -899,4 +899,3 @@ function hexToRgb(hex) {
 
 // Initialize the quiz
 initQuiz();
- 
