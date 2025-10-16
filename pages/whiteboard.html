@@ -2183,6 +2183,9 @@
         alert('Please enter a name for the whiteboard');
         return;
       }
+      // Ensure current PDF page annotations are persisted into pdfPageAnnotations
+      try { saveCurrentPageAnnotations(); } catch (e) { /* non-fatal */ }
+
       const state = serializeWhiteboard();
       if (isStateEmpty(state)) {
         alert('Cannot save an empty whiteboard. Add content before saving.');
@@ -2411,6 +2414,40 @@
 
     document.getElementById('import-pdf-btn').onclick = () => {
       document.getElementById('import-pdf').click();
+    };
+
+    // PDF import handler - read selected PDF and initialize pdfDoc
+    document.getElementById('import-pdf').onchange = async (e) => {
+      const f = e.target.files && e.target.files[0];
+      if (!f) return;
+
+      try {
+        // Ensure worker is set (uses CDN fallback)
+        if (typeof pdfjsLib !== 'undefined') {
+          pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        }
+
+        const arrayBuffer = await f.arrayBuffer();
+        // Load PDF document
+        pdfDoc = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        pdfTotalPages = pdfDoc.numPages;
+        pdfCurrentPage = 1;
+        pdfInitialLoad = true; // auto-fit on first load
+        pdfPageAnnotations = {}; // clear annotations for this PDF
+
+        // Show PDF controls and load the first page
+        document.getElementById('pdf-controls').classList.add('active');
+        await loadPDFPage(pdfCurrentPage, null);
+        updatePDFControls();
+      } catch (err) {
+        console.error('Failed to load PDF:', err);
+        alert('Failed to load PDF. See console for details.');
+      } finally {
+        // Reset file input so same file can be reselected if needed
+        e.target.value = '';
+      }
+    };
+
     // Load whiteboard by ID
     async function loadWhiteboard(id) {
       const dataStr = localStorage.getItem(STORAGE_KEY_PREFIX + id);
@@ -2516,61 +2553,141 @@
       // Persist the cleaned index in case we removed entries
       saveSavedWhiteboards(saves);
     }
+
+    // Save current objects as annotations for the given PDF page (defaults to current page)
+    function saveCurrentPageAnnotations(pageNumber) {
+      if (!pdfDoc) return;
+      const pageKey = String(pageNumber || pdfCurrentPage || 1);
+      try {
+        const anns = [];
+        for (const obj of objects) {
+          const copy = { ...obj };
+          // If image object contains an Image, convert to data URL if possible
+          if (copy.type === 'image' && copy.img) {
+            try {
+              const tcan = document.createElement('canvas');
+              tcan.width = copy.img.naturalWidth || copy.img.width;
+              tcan.height = copy.img.naturalHeight || copy.img.height;
+              const tctx = tcan.getContext('2d');
+              tctx.drawImage(copy.img, 0, 0);
+              copy.imgSrc = tcan.toDataURL('image/png');
+            } catch (e) {
+              // fallback to existing src value
+              copy.imgSrc = copy.src || null;
+            }
+            delete copy.img;
+          }
+          anns.push(copy);
+        }
+        pdfPageAnnotations[pageKey] = anns;
+      } catch (e) {
+        console.error('Failed to save page annotations:', e);
+      }
+    }
+
+    // Load annotations for a PDF page (replace objects with page annotations)
+    async function loadPageAnnotations(pageNum) {
+      if (!pdfDoc) return;
+      // Save current page's annotations before switching
+      // (caller should save previous page if needed)
+      // Clear current objects and load annotations for requested page
+      objects.length = 0;
+      selectedId = null;
+      const pageKey = String(pageNum || 1);
+      const anns = pdfPageAnnotations[pageKey] || [];
+      for (const objData of anns) {
+        const obj = { ...objData };
+        // Restore image objects: create Image from imgSrc if present
+        if (obj.type === 'image' && obj.imgSrc) {
+          try {
+            const img = new Image();
+            img.onload = () => {
+              obj.img = img;
+              obj.src = obj.imgSrc;
+              delete obj.imgSrc;
+              objects.push(obj);
+              draw();
+            };
+            img.onerror = () => {
+              console.warn('Could not load saved annotation image');
+              objects.push(obj);
+            };
+            img.src = obj.imgSrc;
+          } catch (e) {
+            console.warn('Failed to restore annotation image:', e);
+            objects.push(obj);
+          }
+        } else {
+          objects.push(obj);
+        }
+      }
+      draw();
+    }
       
-      page.render({
-        canvasContext: tempCtx,
-        viewport: viewport
-      }).promise.then(() => {
+    // Load and render a PDF page into the whiteboard background
+    async function loadPDFPage(pageNum, prevPage) {
+      if (!pdfDoc) return;
+      // If a previous page number is provided, save its annotations first
+      if (prevPage) {
+        try { saveCurrentPageAnnotations(prevPage); } catch (e) { console.warn('Failed to save prev page annotations', e); }
+      }
+      try {
+        const page = await pdfDoc.getPage(pageNum);
+
+        // Create viewport using configured pdfScale
+        const viewport = page.getViewport({ scale: pdfScale });
+
+        // Render to a temporary canvas at device pixel ratio for quality
+        const tempCanvas = document.createElement('canvas');
+        const tempCtx = tempCanvas.getContext('2d');
+        tempCanvas.width = Math.floor(viewport.width * DPR);
+        tempCanvas.height = Math.floor(viewport.height * DPR);
+        // Scale the context so drawing at CSS pixel sizes looks sharp
+        tempCtx.setTransform(DPR, 0, 0, DPR, 0, 0);
+
+        await page.render({ canvasContext: tempCtx, viewport }).promise;
+
         // Convert to image and set as background
         const img = new Image();
         img.onload = () => {
           bgImage = img;
-          
+
           // Only auto-fit on initial load, preserve zoom on page navigation
           if (pdfInitialLoad) {
-            // Calculate the available canvas space
             const canvasRect = canvas.getBoundingClientRect();
             const canvasWidth = canvasRect.width;
             const canvasHeight = canvasRect.height;
-            
-            // Reserve space for PDF controls (approximately 100px from bottom)
+
+            // Reserve space for PDF controls (~100px)
             const controlsHeight = 100;
             const availableHeight = canvasHeight - controlsHeight;
             const availableWidth = canvasWidth;
-            
-            // Calculate scale to fit the entire PDF page
+
             const scaleX = availableWidth / img.width;
             const scaleY = availableHeight / img.height;
-            const fitScale = Math.min(scaleX, scaleY) * 0.95; // 0.95 for a small margin
-            
-            // Set the scale to fit the page
+            const fitScale = Math.min(scaleX, scaleY) * 0.95; // small margin
+
             scale = fitScale;
-            
-            // Center the PDF horizontally and position it with space at bottom
+
             const scaledWidth = img.width * fitScale;
             const scaledHeight = img.height * fitScale;
-            
-            // Center horizontally
+
             camX = (canvasWidth - scaledWidth) / 2;
-            
-            // Position vertically with space at bottom for controls
-            // Center the remaining vertical space
             camY = (availableHeight - scaledHeight) / 2;
-            
-            // Clear the flag after initial load
+
             pdfInitialLoad = false;
           }
-          
-          // Load annotations for this page
+
+          // Load annotations for this page and redraw
           loadPageAnnotations(pageNum);
-          
           draw();
         };
         img.src = tempCanvas.toDataURL();
-      }).catch((err) => {
+      } catch (err) {
         console.error('PDF page render failed:', err);
-      });
+      }
     }
+    
 
     function updatePDFControls() {
       document.getElementById('pdf-page-info').textContent = `${pdfCurrentPage} / ${pdfTotalPages}`;
