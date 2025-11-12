@@ -304,6 +304,18 @@
       border-top: 1px solid var(--border);
       font-size: 12px;
       color: var(--secondary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .status-bar .pdf-info {
+      display: none;
+      font-weight: 600;
+    }
+
+    body.pdf-mode .status-bar .pdf-info {
+      display: block;
     }
     
     .wrap {
@@ -339,6 +351,86 @@
     #pdf-controls.active {
       display: flex;
     }
+
+    /* PDF Mode - full screen experience */
+    body.pdf-mode {
+      background: #525659;
+    }
+
+    body.pdf-mode .sidebar {
+      width: 60px;
+    }
+
+    body.pdf-mode .sidebar:hover {
+      width: 200px;
+    }
+
+    body.pdf-mode .top-bar {
+      background: rgba(44, 62, 80, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    body.pdf-mode .top-bar button {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255,255,255,0.2);
+      color: white;
+    }
+
+    body.pdf-mode .top-bar button:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    body.pdf-mode .status-bar {
+      background: rgba(44, 62, 80, 0.9);
+      color: rgba(255,255,255,0.8);
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    /* PDF Mode: Fill width like Chrome/Edge PDF viewer */
+    body.pdf-mode .wrap {
+      background: #525659;
+      overflow-y: auto;
+      overflow-x: auto;
+    }
+
+    body.pdf-mode canvas {
+      display: block;
+      margin: 20px auto;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.5);
+      background: white !important;
+    }
+
+    /* PDF Mode indicator */
+    .pdf-mode-indicator {
+      display: none;
+      position: fixed;
+      top: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      z-index: 200;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      align-items: center;
+      gap: 10px;
+    }
+
+    body.pdf-mode .pdf-mode-indicator {
+      display: flex;
+    }
+
+    .pdf-mode-indicator i {
+      font-size: 16px;
+    }
+
+    .pdf-mode-indicator .pdf-title {
+      font-weight: 700;
+    }
     
     #pdf-controls button {
       background: rgba(255, 255, 255, 0.1);
@@ -370,6 +462,27 @@
       font-weight: 500;
       min-width: 80px;
       text-align: center;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    #pdf-page-input {
+      width: 50px;
+      padding: 4px 8px;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 4px;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    
+    #pdf-page-input:focus {
+      outline: none;
+      background: rgba(255,255,255,0.2);
+      border-color: rgba(255,255,255,0.5);
     }
     
     #pdf-close-btn {
@@ -443,17 +556,74 @@
     .video-panel {
       flex: 1;
       height: 100%;
-      background: #000;
+      background: #f5f5f5;
       display: none;
       position: relative;
       border-left: 2px solid #ddd;
       z-index: 100;
+      flex-direction: column;
+    }
+
+    .browser-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 15px;
+      background: white;
+      border-bottom: 1px solid #ddd;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .browser-bar input {
+      flex: 1;
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .browser-bar button {
+      padding: 8px 16px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .browser-bar button:hover {
+      background: #3651d9;
+      transform: translateY(-1px);
+    }
+
+    .browser-bar .quick-links {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+
+    .browser-bar .quick-link {
+      padding: 4px 10px;
+      background: #f0f0f0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .browser-bar .quick-link:hover {
+      background: #e0e0e0;
+      transform: translateY(-1px);
     }
     
     .video-panel iframe {
+      flex: 1;
       width: 100%;
-      height: 100%;
       border: none;
+      background: white;
     }
     
     .close-video {
@@ -571,7 +741,7 @@
       right: 20px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
       z-index: 150;
       background: rgba(44, 62, 80, 0.95);
       padding: 8px;
@@ -579,6 +749,27 @@
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
       backdrop-filter: blur(10px);
       transition: all 0.3s ease;
+      max-height: calc(100vh - 180px);
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .quick-access-toolbar::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .quick-access-toolbar::-webkit-scrollbar-track {
+      background: rgba(255,255,255,0.1);
+      border-radius: 2px;
+    }
+
+    .quick-access-toolbar::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.3);
+      border-radius: 2px;
+    }
+
+    .quick-access-toolbar::-webkit-scrollbar-thumb:hover {
+      background: rgba(255,255,255,0.5);
     }
 
     /* Quick-access toolbar in split-screen mode - move to bottom */
@@ -587,8 +778,8 @@
     }
 
     .quick-tool-btn {
-      width: 45px;
-      height: 45px;
+      width: 40px;
+      height: 40px;
       border: none;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.1);
@@ -598,7 +789,8 @@
       align-items: center;
       justify-content: center;
       transition: all 0.2s ease;
-      font-size: 18px;
+      font-size: 16px;
+      flex-shrink: 0;
     }
 
     .quick-tool-btn:hover {
@@ -1072,6 +1264,13 @@
   </style>
 </head>
 <body>
+  <!-- PDF Mode Indicator -->
+  <div class="pdf-mode-indicator" id="pdf-mode-indicator">
+    <i class="fas fa-file-pdf"></i>
+    <span>PDF Viewer Mode</span>
+    <span class="pdf-title" id="pdf-mode-title"></span>
+  </div>
+
   <!-- Back to Menu Button (bottom-right, non-blocking) -->
   <a href="../menu.html" class="back-menu-btn" title="Back to Menu (M)">
     <i class="fas fa-arrow-left"></i> Back to Menu
@@ -1225,22 +1424,12 @@
   <!-- Confirmation Modal -->
   <div class="confirmation-modal" id="confirmation1">
     <div class="confirmation-content">
-      <h3>Are you sure?</h3>
-      <p>This will split the screen and show Subway Surfers gameplay. This might distract students.</p>
+      <h3>Enable Split Screen Browser?</h3>
+      <p>This will open a web browser in a side panel. You can browse websites, play games, or show content while teaching.</p>
+      <p style="font-size: 12px; color: #666; margin-top: 10px;"><strong>Note:</strong> Some websites (like Poki, YouTube) may not allow embedding due to security policies. Try the suggested game sites or other embed-friendly URLs.</p>
       <div class="confirmation-buttons">
-        <button class="btn-confirm" id="confirm1-yes">Yes, continue</button>
+        <button class="btn-confirm" id="confirm1-yes">Yes, open browser</button>
         <button class="btn-cancel" id="confirm1-no">Cancel</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="confirmation-modal" id="confirmation2">
-    <div class="confirmation-content">
-      <h3>Final Confirmation</h3>
-      <p>Are you absolutely sure you want to show Subway Surfers gameplay during your lesson?</p>
-      <div class="confirmation-buttons">
-        <button class="btn-confirm" id="confirm2-yes">Yes, show it</button>
-        <button class="btn-cancel" id="confirm2-no">Cancel</button>
       </div>
     </div>
   </div>
@@ -1435,8 +1624,8 @@
         </button>
       </div>
       <div>
-        <button id="split-screen-btn">
-          <i class="fas fa-columns"></i><span>Split Screen</span>
+        <button id="split-screen-btn" title="Open games browser in split screen">
+          <i class="fas fa-gamepad"></i><span>Games Browser</span>
         </button>
         <button id="toggle-grid">
           <i class="fas fa-border-all"></i><span>Grid</span>
@@ -1472,7 +1661,11 @@
       <div id="pdf-controls">
         <button id="pdf-first" title="First page"><i class="fas fa-step-backward"></i></button>
         <button id="pdf-prev" title="Previous page"><i class="fas fa-chevron-left"></i></button>
-        <span id="pdf-page-info">- / -</span>
+        <span id="pdf-page-info">
+          <input type="number" id="pdf-page-input" min="1" value="1" title="Go to page" />
+          <span>/</span>
+          <span id="pdf-total-pages">-</span>
+        </span>
         <button id="pdf-next" title="Next page"><i class="fas fa-chevron-right"></i></button>
         <button id="pdf-last" title="Last page"><i class="fas fa-step-forward"></i></button>
         <button id="pdf-close-btn" title="Close PDF"><i class="fas fa-times"></i></button>
@@ -1490,22 +1683,55 @@
             <button class="quick-tool-btn active" id="quick-pen" title="Pen (P)">
               <i class="fas fa-pen"></i>
             </button>
+            
+            <!-- Separator -->
+            <div style="height: 1px; background: rgba(255,255,255,0.2); margin: 4px 0;"></div>
+            
+            <!-- On-screen zoom controls for touch / smart screens -->
+            <button class="quick-tool-btn" id="zoom-in" title="Zoom In">
+              <i class="fas fa-search-plus"></i>
+            </button>
+            <button class="quick-tool-btn" id="zoom-out" title="Zoom Out">
+              <i class="fas fa-search-minus"></i>
+            </button>
+            <button class="quick-tool-btn" id="zoom-fit" title="Fit to Screen">
+              <i class="fas fa-expand"></i>
+            </button>
+            <button class="quick-tool-btn" id="zoom-reset" title="Reset View">
+              <i class="fas fa-arrows-rotate"></i>
+            </button>
+            
+            <!-- Vertical zoom slider -->
+            <div style="display:flex; flex-direction:column; align-items:center; padding:6px 4px; gap:4px;">
+              <div id="zoom-label" style="color:white; font-size:10px; font-weight:600;">100%</div>
+              <input id="zoom-slider" type="range" min="10" max="800" value="100" orient="vertical" style="writing-mode: bt-lr; -webkit-appearance: slider-vertical; width: 6px; height: 60px;" aria-label="Zoom slider" />
+            </div>
           </div>
           
           <canvas id="board" aria-label="Whiteboard canvas"></canvas>
           <div id="desmos-hidden"></div>
         </div>
         <div class="video-panel" id="video-panel">
-          <button class="close-video" id="close-video" title="Close split screen">
-            <i class="fas fa-times"></i>
-          </button>
-          <iframe id="browser-iframe" src="about:blank" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals allow-top-navigation allow-top-navigation-by-user-activation" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width: 100%; height: 100%; border: none;"></iframe>
+          <div class="browser-bar">
+            <button class="close-video" id="close-video" title="Close split screen" style="padding: 8px 12px; margin: 0;">
+              <i class="fas fa-times"></i>
+            </button>
+            <input type="text" id="browser-url" placeholder="Enter URL (e.g., https://example.com)" />
+            <button id="browser-go">Go</button>
+            <div class="quick-links">
+              <button class="quick-link" data-url="https://www.crazygames.com/">CrazyGames</button>
+              <button class="quick-link" data-url="https://www.miniclip.com/">Miniclip</button>
+              <button class="quick-link" data-url="https://www.addictinggames.com/">AddictingGames</button>
+            </div>
+          </div>
+          <iframe id="browser-iframe" src="about:blank" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals allow-top-navigation allow-top-navigation-by-user-activation" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
       </div>
     </div>
     
     <div class="status-bar">
       <span>Wheel = Pan | Ctrl+Wheel = Zoom | Select tool + click on object to move</span>
+      <span class="pdf-info" id="status-pdf-info"></span>
     </div>
   </div>
 
@@ -1554,6 +1780,8 @@
     let pdfScale = 2; // Higher scale for better quality
     let pdfInitialLoad = true; // Track if this is the first page load to auto-fit
     let pdfPageAnnotations = {}; // Store annotations per page: {pageNumber: [objects]}
+    let pdfMode = false; // Track if we're in PDF viewer mode
+    let pdfFileName = ''; // Store the PDF filename for display
 
     // Object model.
     const objects = [];
@@ -1568,7 +1796,13 @@
       canvas.height = Math.floor(rect.height * DPR);
       draw();
     }
-    window.addEventListener('resize', fitCanvas, { passive: true });
+    window.addEventListener('resize', () => {
+      fitCanvas();
+      // Re-fit PDF width on resize if in PDF mode
+      if (pdfMode && bgImage) {
+        setTimeout(() => fitPDFToWidth(), 50);
+      }
+    }, { passive: true });
     // set initial rect size (make sure CSS has applied)
     requestAnimationFrame(fitCanvas);
 
@@ -1593,11 +1827,8 @@
     const browserIframe = document.getElementById('browser-iframe');
     const closeVideoBtn = document.getElementById('close-video');
     const confirmation1 = document.getElementById('confirmation1');
-    const confirmation2 = document.getElementById('confirmation2');
     const confirm1Yes = document.getElementById('confirm1-yes');
     const confirm1No = document.getElementById('confirm1-no');
-    const confirm2Yes = document.getElementById('confirm2-yes');
-    const confirm2No = document.getElementById('confirm2-no');
 
     // NEW: Split screen functionality
     function showConfirmation1() {
@@ -1608,20 +1839,13 @@
       confirmation1.style.display = 'none';
     }
     
-    function showConfirmation2() {
-      confirmation2.style.display = 'flex';
-    }
-    
-    function hideConfirmation2() {
-      confirmation2.style.display = 'none';
-    }
-    
     function enableSplitScreen() {
       isSplitScreen = true;
-      videoPanel.style.display = 'block';
-      splitScreenBtn.innerHTML = '<i class="fas fa-times"></i> Close Video';
-      // Load Subway Surfers gameplay video
-      browserIframe.src = "https://www.youtube.com/embed/vTfD20dbxho?autoplay=1&mute=0&controls=0&modestbranding=1&rel=0";
+      videoPanel.style.display = 'flex';
+      splitScreenBtn.innerHTML = '<i class="fas fa-times"></i> Close Browser';
+      // Start with a blank page - user can enter URL
+      browserIframe.src = "about:blank";
+      document.getElementById('browser-url').value = '';
       
       // Move quick-access toolbar to bottom-left when split-screen is active
       const quickAccessToolbar = document.querySelector('.quick-access-toolbar');
@@ -1660,17 +1884,42 @@
     
     confirm1Yes.addEventListener('click', () => {
       hideConfirmation1();
-      showConfirmation2();
-    });
-    
-    confirm1No.addEventListener('click', hideConfirmation1);
-    
-    confirm2Yes.addEventListener('click', () => {
-      hideConfirmation2();
       enableSplitScreen();
     });
     
-    confirm2No.addEventListener('click', hideConfirmation2);
+    confirm1No.addEventListener('click', hideConfirmation1);
+
+    // Browser controls
+    const browserUrlInput = document.getElementById('browser-url');
+    const browserGoBtn = document.getElementById('browser-go');
+
+    // Handle Go button click
+    browserGoBtn.addEventListener('click', () => {
+      let url = browserUrlInput.value.trim();
+      if (url) {
+        // Add https:// if no protocol specified
+        if (!url.startsWith('http://') && !url.startsWith('https://')) {
+          url = 'https://' + url;
+        }
+        browserIframe.src = url;
+      }
+    });
+
+    // Handle Enter key in URL input
+    browserUrlInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        browserGoBtn.click();
+      }
+    });
+
+    // Handle quick link buttons
+    document.querySelectorAll('.quick-link').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const url = btn.getAttribute('data-url');
+        browserUrlInput.value = url;
+        browserIframe.src = url;
+      });
+    });
 
     // UI bindings.
     const btns = {
@@ -1946,6 +2195,57 @@
     document.getElementById('quick-hand').onclick = () => setTool(Tool.Hand);
     document.getElementById('quick-pen').onclick = () => setTool(Tool.Pen);
     document.getElementById('panel-color-preview').addEventListener('click', ()=> panelColorInput.click());
+
+    // On-screen zoom controls (for touch / smart screens)
+    const zoomInBtn = document.getElementById('zoom-in');
+    const zoomOutBtn = document.getElementById('zoom-out');
+    const zoomFitBtn = document.getElementById('zoom-fit');
+    const zoomResetBtn = document.getElementById('zoom-reset');
+    const zoomSlider = document.getElementById('zoom-slider');
+    const zoomLabel = document.getElementById('zoom-label');
+
+    function setScaleAtPoint(newScale, screenX, screenY) {
+      // clamp and apply zoom keeping world point under screen coords stable
+      newScale = Math.min(8, Math.max(0.1, newScale));
+      const before = screenToWorld(screenX, screenY);
+      scale = newScale;
+      const after = worldToScreen(before.x, before.y);
+      camX += (screenX - canvas.getBoundingClientRect().left) - after.x;
+      camY += (screenY - canvas.getBoundingClientRect().top) - after.y;
+      if (zoomSlider) zoomSlider.value = Math.round(scale * 100);
+      if (zoomLabel) zoomLabel.textContent = Math.round(scale * 100) + '%';
+      draw();
+    }
+
+    function changeScaleBy(factor) {
+      const rect = canvas.getBoundingClientRect();
+      const cx = rect.left + rect.width/2;
+      const cy = rect.top + rect.height/2;
+      setScaleAtPoint(scale * factor, cx, cy);
+    }
+
+    if (zoomInBtn) zoomInBtn.addEventListener('click', () => changeScaleBy(1.15));
+    if (zoomOutBtn) zoomOutBtn.addEventListener('click', () => changeScaleBy(1/1.15));
+    if (zoomResetBtn) zoomResetBtn.addEventListener('click', () => { scale = 1; camX = 0; camY = 0; if (zoomSlider) zoomSlider.value = Math.round(scale * 100); if (zoomLabel) zoomLabel.textContent = Math.round(scale * 100) + '%'; draw(); });
+
+    if (zoomFitBtn) zoomFitBtn.addEventListener('click', () => {
+      const rect = canvas.getBoundingClientRect();
+      const availW = rect.width, availH = rect.height;
+      if (bgImage) {
+        const fitScale = Math.min(availW / bgImage.width, availH / bgImage.height) * 0.95;
+        scale = Math.max(0.1, Math.min(8, fitScale));
+        camX = (availW - bgImage.width * scale) / 2;
+        camY = (availH - bgImage.height * scale) / 2;
+      } else if (objects.length > 0) {
+        let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+        for (const o of objects) { const b = objectBBox(o); if (!b) continue; minX = Math.min(minX, b.x); minY = Math.min(minY, b.y); maxX = Math.max(maxX, b.x + b.w); maxY = Math.max(maxY, b.y + b.h); }
+        if (minX === Infinity) { scale = 1; camX = 0; camY = 0; }
+        else { const w = maxX - minX, h = maxY - minY; const fitScale = Math.min(availW / Math.max(1, w), availH / Math.max(1, h)) * 0.9; scale = Math.max(0.1, Math.min(8, fitScale)); camX = (availW/2) - ((minX + w/2) * scale); camY = (availH/2) - ((minY + h/2) * scale); }
+      } else { scale = 1; camX = 0; camY = 0; }
+      if (zoomSlider) zoomSlider.value = Math.round(scale * 100); if (zoomLabel) zoomLabel.textContent = Math.round(scale * 100) + '%'; draw();
+    });
+
+    if (zoomSlider) zoomSlider.addEventListener('input', (e) => { const v = parseInt(e.target.value,10) || 100; const rect = canvas.getBoundingClientRect(); const cx = rect.left + rect.width/2; const cy = rect.top + rect.height/2; setScaleAtPoint(v/100, cx, cy); });
 
     document.getElementById('undo').onclick = () => {
       objects.pop();
@@ -2416,6 +2716,76 @@
       document.getElementById('import-pdf').click();
     };
 
+    // Enable PDF Mode - transforms the whiteboard into a dedicated PDF viewer
+    function enablePDFMode(filename) {
+      pdfMode = true;
+      pdfFileName = filename;
+      document.body.classList.add('pdf-mode');
+      const indicator = document.getElementById('pdf-mode-indicator');
+      const titleEl = document.getElementById('pdf-mode-title');
+      if (titleEl) titleEl.textContent = `- ${filename}`;
+      
+      // Set canvas background to white for PDF mode
+      canvas.style.background = 'white';
+      
+      // Fit PDF width to fill the available canvas width
+      if (pdfInitialLoad && bgImage) {
+        setTimeout(() => {
+          fitPDFToWidth();
+        }, 100);
+      }
+    }
+
+    // Fit PDF to fill canvas width (like Chrome/Edge PDF viewer)
+    function fitPDFToWidth() {
+      if (!bgImage) return;
+      
+      const rect = canvas.getBoundingClientRect();
+      const availW = rect.width - 40; // Small margin
+      
+      // Calculate scale to fit width
+      const widthScale = availW / bgImage.width;
+      scale = Math.max(0.1, Math.min(8, widthScale));
+      
+      // Center horizontally, position at top
+      const scaledWidth = bgImage.width * scale;
+      camX = (rect.width - scaledWidth) / 2;
+      camY = 20; // Small top margin
+      
+      // Update zoom controls
+      if (zoomSlider) zoomSlider.value = Math.round(scale * 100);
+      if (zoomLabel) zoomLabel.textContent = Math.round(scale * 100) + '%';
+      
+      // Adjust canvas height to fit PDF height plus margins
+      const scaledHeight = bgImage.height * scale;
+      const newHeight = scaledHeight + 40; // Top and bottom margins
+      canvas.style.minHeight = newHeight + 'px';
+      
+      fitCanvas();
+      draw();
+    }
+
+    // Disable PDF Mode - return to normal whiteboard
+    function disablePDFMode() {
+      pdfMode = false;
+      pdfFileName = '';
+      document.body.classList.remove('pdf-mode');
+      
+      // Reset canvas styling
+      canvas.style.minHeight = '';
+      canvas.style.background = canvasBgColor;
+      
+      // Reset view
+      scale = 1;
+      camX = 0;
+      camY = 0;
+      if (zoomSlider) zoomSlider.value = 100;
+      if (zoomLabel) zoomLabel.textContent = '100%';
+      
+      fitCanvas();
+      draw();
+    }
+
     // PDF import handler - read selected PDF and initialize pdfDoc
     document.getElementById('import-pdf').onchange = async (e) => {
       const f = e.target.files && e.target.files[0];
@@ -2439,6 +2809,9 @@
         document.getElementById('pdf-controls').classList.add('active');
         await loadPDFPage(pdfCurrentPage, null);
         updatePDFControls();
+        
+        // Enable PDF viewer mode
+        enablePDFMode(f.name);
       } catch (err) {
         console.error('Failed to load PDF:', err);
         alert('Failed to load PDF. See console for details.');
@@ -2690,11 +3063,24 @@
     
 
     function updatePDFControls() {
-      document.getElementById('pdf-page-info').textContent = `${pdfCurrentPage} / ${pdfTotalPages}`;
+      const pageInput = document.getElementById('pdf-page-input');
+      const totalPages = document.getElementById('pdf-total-pages');
+      
+      if (pageInput) pageInput.value = pdfCurrentPage;
+      if (totalPages) totalPages.textContent = pdfTotalPages;
+      
       document.getElementById('pdf-first').disabled = pdfCurrentPage === 1;
       document.getElementById('pdf-prev').disabled = pdfCurrentPage === 1;
       document.getElementById('pdf-next').disabled = pdfCurrentPage === pdfTotalPages;
       document.getElementById('pdf-last').disabled = pdfCurrentPage === pdfTotalPages;
+      
+      if (pageInput) pageInput.max = pdfTotalPages;
+      
+      // Update status bar with PDF info
+      const statusInfo = document.getElementById('status-pdf-info');
+      if (statusInfo && pdfMode) {
+        statusInfo.textContent = `Page ${pdfCurrentPage} of ${pdfTotalPages}`;
+      }
     }
 
     // PDF Navigation
@@ -2735,6 +3121,18 @@
     };
 
     document.getElementById('pdf-close-btn').onclick = () => {
+      // Confirm before closing if there are annotations
+      const hasAnnotations = Object.keys(pdfPageAnnotations).some(key => {
+        const anns = pdfPageAnnotations[key];
+        return Array.isArray(anns) && anns.length > 0;
+      }) || objects.length > 0;
+      
+      if (hasAnnotations) {
+        if (!confirm('Close PDF viewer? All annotations on this PDF will be cleared. (You can save the whiteboard first to preserve them)')) {
+          return;
+        }
+      }
+      
       // Save current page annotations before closing
       if (pdfDoc) {
         saveCurrentPageAnnotations();
@@ -2749,12 +3147,51 @@
       objects.length = 0; // Clear objects
       selectedId = null;
       document.getElementById('pdf-controls').classList.remove('active');
+      
+      // Disable PDF mode
+      disablePDFMode();
+      
       draw();
     };
+
+    // Page number input navigation
+    const pdfPageInput = document.getElementById('pdf-page-input');
+    if (pdfPageInput) {
+      pdfPageInput.addEventListener('keypress', async (e) => {
+        if (e.key === 'Enter') {
+          const pageNum = parseInt(pdfPageInput.value, 10);
+          if (pageNum && pageNum >= 1 && pageNum <= pdfTotalPages && pageNum !== pdfCurrentPage) {
+            const oldPage = pdfCurrentPage;
+            pdfCurrentPage = pageNum;
+            await loadPDFPage(pdfCurrentPage, oldPage);
+            updatePDFControls();
+          } else {
+            // Reset to current page if invalid
+            pdfPageInput.value = pdfCurrentPage;
+          }
+        }
+      });
+      
+      pdfPageInput.addEventListener('blur', async () => {
+        const pageNum = parseInt(pdfPageInput.value, 10);
+        if (pageNum && pageNum >= 1 && pageNum <= pdfTotalPages && pageNum !== pdfCurrentPage) {
+          const oldPage = pdfCurrentPage;
+          pdfCurrentPage = pageNum;
+          await loadPDFPage(pdfCurrentPage, oldPage);
+          updatePDFControls();
+        } else {
+          // Reset to current page if invalid
+          pdfPageInput.value = pdfCurrentPage;
+        }
+      });
+    }
 
     // Keyboard shortcuts for PDF navigation
     document.addEventListener('keydown', (e) => {
       if (!pdfDoc) return;
+      
+      // Only use arrow keys for navigation if not editing text
+      if (textEditorEl) return;
       
       if (e.key === 'ArrowLeft' && !e.ctrlKey && !e.shiftKey) {
         e.preventDefault();
@@ -2768,6 +3205,12 @@
       } else if (e.key === 'End' && !e.ctrlKey) {
         e.preventDefault();
         document.getElementById('pdf-last').click();
+      } else if (e.key === 'PageDown') {
+        e.preventDefault();
+        document.getElementById('pdf-next').click();
+      } else if (e.key === 'PageUp') {
+        e.preventDefault();
+        document.getElementById('pdf-prev').click();
       }
     });
 
@@ -3805,6 +4248,26 @@
             if (activeHandle === 'bl') { obj.x1 = world.x; obj.y2 = world.y; }
             if (activeHandle === 'br') { obj.x2 = world.x; obj.y2 = world.y; }
             draw();
+          } else if (obj.type === 'arrow') {
+            // Resize arrow by moving endpoints - similar to line
+            if (activeHandle === 'tl') { 
+              // Top-left: move start point (x1, y1)
+              obj.x1 = world.x; 
+              obj.y1 = world.y; 
+            } else if (activeHandle === 'tr') { 
+              // Top-right: move end point x, start point y
+              obj.x2 = world.x; 
+              obj.y1 = world.y; 
+            } else if (activeHandle === 'bl') { 
+              // Bottom-left: move start point x, end point y
+              obj.x1 = world.x; 
+              obj.y2 = world.y; 
+            } else if (activeHandle === 'br') { 
+              // Bottom-right: move end point (x2, y2) - the arrowhead
+              obj.x2 = world.x; 
+              obj.y2 = world.y; 
+            }
+            draw();
           } else if (obj.type === 'triangle') {
             // scale triangle corners relative to bbox depending on handle
             const b = objectBBox(obj);
@@ -3883,7 +4346,20 @@
         return;
       }
 
-      // Calculate the position of the bottom of the PDF in screen coordinates
+      // In PDF mode, position controls at bottom center of viewport
+      if (pdfMode) {
+        const wrapRect = canvas.parentElement.getBoundingClientRect();
+        pdfControls.style.visibility = 'visible';
+        pdfControls.style.left = '50%';
+        pdfControls.style.bottom = '20px';
+        pdfControls.style.top = 'auto';
+        pdfControls.style.transform = 'translateX(-50%)';
+        pdfControls.style.position = 'fixed';
+        return;
+      }
+
+      // Normal mode: position relative to PDF
+      pdfControls.style.position = 'absolute';
       const pdfBottom = worldToScreen(bgImage.width, bgImage.height);
       const wrapRect = canvas.parentElement.getBoundingClientRect();
 
@@ -3902,7 +4378,8 @@
       // Position relative to the wrap container
       pdfControls.style.visibility = 'visible';
       pdfControls.style.left = `${pdfCenterX}px`;
-      pdfControls.style.top = `${pdfBottom.y + 10}px`; // 10px below PDF bottom
+      pdfControls.style.top = `${pdfBottom.y + 10}px`;
+      pdfControls.style.bottom = 'auto';
       pdfControls.style.transform = 'translateX(-50%)';
     }
 
